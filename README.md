@@ -26,11 +26,12 @@ python3 middle_earth_hud.py
 | drag the speed slider   | set the speed (bottom-right, top)            |
 | drag the zoom slider    | zoom the map 1× … 100× (bottom-right, lower) |
 | mouse wheel on the map  | zoom in/out toward the cursor                |
-| drag on the map         | pan when zoomed in                           |
+| drag on the map         | pan when zoomed in (the gauntlet cursor closes into a fist and grabs the map) |
 | `0`                     | reset zoom to 1×                             |
 | click/drag the timeline | jump to any moment (bottom-left)             |
 | `R`                     | reset to the start                           |
 | `Esc`                   | quit                                         |
+| hover a route / legend  | highlight that group's route and name its stations |
 
 ## Real film runtime
 
@@ -65,12 +66,30 @@ the films.
   segments (FotR / TTT / RotK), and on the right a **speed slider** and a
   **zoom slider** (1× … 100×).
 
+## Routes
+
+Routes are drawn like in a navigation app, but in ink on parchment: the part a
+group has already travelled is a solid line with an ink border and direction
+arrows, the road still ahead is a dashed quill line, and the current position is
+the group's seal with its emblem: an Elven star for the Fellowship, the One Ring
+for Frodo & Sam, Anduril for Aragorn, Legolas & Gimli, a Lorien leaf brooch for
+Merry & Pippin and a wizard's hat for Gandalf (set via `"icon"` in `data.py`).
+Seals of groups at the same place are fanned out so none is hidden. Every station on a route is marked: filled in the
+group's colour once reached, hollow before. **Hover** a route on the map or its
+entry in the legend to highlight it (the other routes fade) and show the names
+of its stations.
+
 ## Zoom
 
 Use the **zoom slider** (bottom-right, 1× … 100×, logarithmic) or the **mouse
 wheel** over the map to zoom toward the cursor. When zoomed in, **drag the map**
 to pan around; press `0` to reset to the full map. The dots, routes and the
 Boromir medallion keep a constant screen size so they stay readable at any zoom.
+When zoomed in, the map is re-drawn from the vector original
+(`assets/middle_earth.svg`), so it stays sharp at every zoom level. Rendering
+happens in the background and covers a little more than the visible area, so
+panning stays sharp; right after a zoom step the previous image is briefly
+scaled until the new one is ready (a fraction of a second).
 
 ## Fine-tuning place positions (calibration)
 
@@ -91,6 +110,8 @@ defaults automatically.
 - `data.py` — places, group routes and events. **Edit here** to change locations,
   dates or event texts.
 - `assets/middle_earth_bg.png` — background map (composited onto parchment).
+- `assets/middle_earth.svg` — vector original of the map, used for sharp zooming
+  (optional: without it, zooming falls back to the PNG).
 - `assets/MAP_LICENSE.txt` — source & licence of the map.
 - `locations.json` — created only by calibration (optional).
 
